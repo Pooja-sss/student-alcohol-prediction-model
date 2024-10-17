@@ -3,10 +3,16 @@ import pandas as pd
 import joblib
 
 
-# Load the trained model and scaler
-model = joblib.load('student_alcohol_model.pkl')
-scaler = joblib.load('scaler.pkl')  # Ensure the scaler used in training is loaded if scaling was applied
 
+# Load the trained model and scaler
+with open('student_alcohol_model.pkl', 'rb') as f:
+    model = joblib.load(f)
+
+with open('scaler.pkl', 'rb') as f:
+    scaler = joblib.load(f)
+
+# Define the feature list exactly as used in training
+features = ['age', 'studytime', 'health', 'absences', 'G1', 'G2', 'G3', 'Fedu', 'Medu', 'Pstatus', 'Walc']
 # Streamlit app title
 st.title("Student Alcohol Consumption Prediction")
 
@@ -26,19 +32,27 @@ G1 = st.number_input('Grade 1 (out of 20)', min_value=0, max_value=20, value=12)
 G2 = st.number_input('Grade 2 (out of 20)', min_value=0, max_value=20, value=14)
 G3 = st.number_input('Grade 3 (out of 20)', min_value=0, max_value=20, value=14)
 
-# Optional: You can include other input fields based on your model's features
+# Convert Pstatus to numerical values
+Pstatus = 1 if Pstatus == 'T' else 0
 
-# When the user clicks the "Predict" button
-if st.button('Predict Alcohol Consumption Level'):
-    # Create the input data as a DataFrame
-    input_data = pd.DataFrame([[age, studytime, health, absences, G1, G2]],
-                              columns=['age', 'studytime', 'health', 'absences', 'G1', 'G2'])
+# Store the input values in the same order as the features
+input_data = [age, studytime, health, absences, G1, G2, G3, Fedu, Medu, Pstatus, Walc]
 
-    # Scale the input data if scaling was applied during training
-    input_scaled = scaler.transform(input_data)
+# Convert the input data into a DataFrame for scaling
+input_df = pd.DataFrame([input_data], columns=features)
+
+# Display the input data for debugging purposes
+st.write("Input Data (before scaling):", input_df)
+
+try:
+    # Scale the input data
+    input_scaled = scaler.transform(input_df)
 
     # Make the prediction
     prediction = model.predict(input_scaled)
 
-    # Display the prediction
-    st.write(f"Predicted Alcohol Consumption (Weekday): {prediction[0]}")
+    # Display the prediction result
+    st.write(f"Predicted Alcohol Consumption (Weekday) level: {prediction[0]}")
+
+except Exception as e:
+    st.error(f"An error occurred: {e}")
