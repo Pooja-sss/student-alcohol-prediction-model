@@ -18,12 +18,13 @@ st.write(
 st.header("Enter Student Information:")
 
 # Collect user input
-age = st.slider('Age', 15, 22, 18)
+age = st.slider('Age', 15, 22, 18, 25)
 studytime = st.slider('Study Time (hours/week)', 1, 4, 2)
 health = st.slider('Health Status (1 = worst, 5 = best)', 1, 5, 3)
 absences = st.number_input('Number of School Absences', min_value=0, value=2)
 G1 = st.number_input('Grade 1 (out of 20)', min_value=0, max_value=20, value=12)
 G2 = st.number_input('Grade 2 (out of 20)', min_value=0, max_value=20, value=14)
+G3 = st.number_input('Grade 3 (out of 20)', min_value=0, max_value=20, value=14)
 
 # Optional: You can include other input fields based on your model's features
 
