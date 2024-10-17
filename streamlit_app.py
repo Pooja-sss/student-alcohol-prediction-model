@@ -48,9 +48,6 @@ input_data = [age, studytime, health, absences, G1, G2, G3, Fedu, Medu, Pstatus,
 # Convert the input data into a DataFrame for scaling
 input_df = pd.DataFrame([input_data], columns=features)
 
-# Display the input data for debugging purposes
-st.write("Input Data (before scaling):", input_df)
-
 try:
     # Scale the input data
     input_scaled = scaler.transform(input_df)
