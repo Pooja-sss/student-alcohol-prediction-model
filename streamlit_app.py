@@ -31,9 +31,16 @@ absences = st.number_input('Number of School Absences', min_value=0, value=2)
 G1 = st.number_input('Grade 1 (out of 20)', min_value=0, max_value=20, value=12)
 G2 = st.number_input('Grade 2 (out of 20)', min_value=0, max_value=20, value=14)
 G3 = st.number_input('Grade 3 (out of 20)', min_value=0, max_value=20, value=14)
+Fedu = st.number_input('Father\'s Education (0-4)', min_value=0, max_value=4)
+Medu = st.number_input('Mother\'s Education (0-4)', min_value=0, max_value=4)
+
+# Get Pstatus from the selectbox
+Pstatus_input = st.selectbox('Parent\'s Cohabitation Status', ['T', 'A'])
 
 # Convert Pstatus to numerical values
-Pstatus = 1 if Pstatus == 'T' else 0
+Pstatus = 1 if Pstatus_input == 'T' else 0
+
+Walc = st.number_input('Weekend Alcohol Consumption (1-5)', min_value=1, max_value=5)
 
 # Store the input values in the same order as the features
 input_data = [age, studytime, health, absences, G1, G2, G3, Fedu, Medu, Pstatus, Walc]
